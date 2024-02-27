@@ -1,26 +1,24 @@
-name: Run Colab Notebook
+name: Run Python Script on Schedule
 
 on:
   schedule:
-    # Runs every day at 5:00 AM UTC
-    - cron: '0 * * * *'
-  workflow_dispatch:
+    - cron: '0 * * * *'  # This runs at the top of every hour
 
 jobs:
-  run-notebook:
+  run-script:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v3 # Updated to the latest version that supports Node.js 20
-    - name: Set up Python
-      uses: actions/setup-python@v4 # Updated to the latest version that supports Node.js 20
-      with:
-        python-version: '3.x'
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install papermill nbconvert
-        
-    - name: Execute notebook
-      run: papermill ctb.ipynb output-notebook.ipynb
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'  # Specify the Python version you need
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt  # Assumes you have a requirements.txt file
+
+      - name: Run the script
+        run: python script.py
