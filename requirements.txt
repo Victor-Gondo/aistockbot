@@ -1,0 +1,3 @@
+typing-extensions<4.6.0
+cryptocompare
+alpaca-py
