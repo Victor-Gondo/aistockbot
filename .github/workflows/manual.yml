@@ -21,4 +21,4 @@ jobs:
           pip install -r requirements.txt  # Assumes you have a requirements.txt file
 
       - name: Run the script
-        run: python script.py
+        run: python ai_bot.py
