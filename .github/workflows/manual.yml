@@ -5,20 +5,34 @@ on:
     - cron: '0 * * * *'  # This runs at the top of every hour
 
 jobs:
-  run-script:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
       
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.8'  # Specify the Python version you need
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt  # Assumes you have a requirements.txt file
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  
 
       - name: Run the script
         run: python ai_bot.py
+
+      - name: commit files
+        run: |
+          git config --local user.email "victorgpoetra@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff-index --quiet HEAD || (git commit -a -m "updated logs" --allow-empty)
+
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main 
