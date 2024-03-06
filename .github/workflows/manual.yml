@@ -1,6 +1,14 @@
 name: Run Python Script on Schedule
 
 on:
+  workflow_dispatch:
+    inputs:
+      loglevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags: 
+         description: 'Test scenario tags'
   schedule:
     - cron: '0 * * * *'  # This runs at the top of every hour
 
